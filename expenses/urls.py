@@ -3,4 +3,5 @@ from .import views
 
 urlpatterns = [
     path('', views.home, name='home'),
+    path("add-expense/", views.add_expense, name="add_expense"),
 ]
