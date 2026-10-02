@@ -246,31 +246,36 @@
     <div class="table-wrapper">
         <table>
             <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Amount</th>
-                    <th>Category</th>
-                    <th>Date</th>
-                    <th>Description</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for expense in page_obj %}
-                <tr>
-                    <td>{{ expense.title }}</td>
-                    <td class="amount-cell">₹{{ expense.amount }}</td>
-                    <td><span class="category-cell">{{ expense.category }}</span></td>
-                    <td class="date-cell">{{ expense.date|date:"d M Y" }}</td>
-                    <td class="description-cell" title="{{ expense.description }}">
-                        {{ expense.description|default:"-" }}
-                    </td>
-                </tr>
-                {% empty %}
-                <tr class="empty-row">
-                    <td colspan="5">No expenses found.</td>
-                </tr>
-                {% endfor %}
-            </tbody>
+    <tr>
+        <th>Title</th>
+        <th>Amount</th>
+        <th>Category</th>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Actions</th>
+    </tr>
+</thead>
+<tbody>
+    {% for expense in page_obj %}
+    <tr>
+        <td>{{ expense.title }}</td>
+        <td class="amount-cell">₹{{ expense.amount }}</td>
+        <td><span class="category-cell">{{ expense.category }}</span></td>
+        <td class="date-cell">{{ expense.date|date:"d M Y" }}</td>
+        <td class="description-cell" title="{{ expense.description }}">
+            {{ expense.description|default:"-" }}
+        </td>
+        <td>
+            <a href="{% url 'edit_expense' expense.pk %}" class="action-btn edit-btn">Edit</a>
+            <a href="{% url 'delete_expense' expense.pk %}" class="action-btn delete-btn">Delete</a>
+        </td>
+    </tr>
+    {% empty %}
+    <tr class="empty-row">
+        <td colspan="6">No expenses found.</td>
+    </tr>
+    {% endfor %}
+</tbody>
         </table>
     </div>
 
