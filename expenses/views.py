@@ -1,9 +1,11 @@
 from django.shortcuts import render, redirect
 from .forms import ExpenseForm
+from .models import Expense
 
 
 def home(request):
-    return render(request, "expenses/home.html")
+    expenses = Expense.objects.all()
+    return render(request, "expenses/home.html", {"expenses": expenses})
 
 
 def add_expense(request):
