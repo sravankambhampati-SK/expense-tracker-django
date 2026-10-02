@@ -4,313 +4,1342 @@
 <head>
     <meta charset="UTF-8">
     <title>Expense Tracker</title>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet">
 
-    <style>
-        :root {
-            --bg: #f5f7fb;
-            --card-bg: #ffffff;
-            --text: #1f2937;
-            --muted: #6b7280;
-            --primary: #4f46e5;
-            --primary-hover: #4338ca;
-            --border: #e5e7eb;
-            --shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+        <style>
+    :root {
+        --bg: #f5f7fb;
+        --card-bg: #ffffff;
+        --text: #1f2937;
+        --muted: #6b7280;
+        --primary: #4f46e5;
+        --primary-hover: #4338ca;
+        --border: #e5e7eb;
+        --danger: #dc2626;
+        --danger-hover: #b91c1c;
+        --shadow: 0 10px 25px rgba(15, 23, 42, 0.06);
+    }
+
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        min-height: 100vh;
+        padding: 40px 16px;
+        display: flex;
+        justify-content: center;
+        background: linear-gradient(135deg, #eef2ff 0%, #f5f7fb 100%);
+        color: var(--text);
+        font-family: "Inter", system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 1100px;
+        padding: 28px 24px;
+        background: var(--card-bg);
+        border-radius: 16px;
+        box-shadow: var(--shadow);
+    }
+
+    /* Navbar */
+
+    .navbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        margin-bottom: 26px;
+        padding-bottom: 18px;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .nav-brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--text);
+        font-size: 17px;
+        font-weight: 700;
+        text-decoration: none;
+    }
+
+    .nav-brand-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 34px;
+        height: 34px;
+        background: var(--primary);
+        color: #ffffff;
+        border-radius: 10px;
+        font-size: 16px;
+    }
+
+    .nav-user {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .user-avatar {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 38px;
+        height: 38px;
+        flex-shrink: 0;
+        background: #e0e7ff;
+        color: #3730a3;
+        border-radius: 50%;
+        font-size: 14px;
+        font-weight: 700;
+        text-transform: uppercase;
+    }
+
+    .user-details {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+
+    .user-name {
+        max-width: 170px;
+        overflow: hidden;
+        color: #1f2937;
+        font-size: 13px;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .user-email {
+        max-width: 170px;
+        overflow: hidden;
+        color: var(--muted);
+        font-size: 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .logout-form {
+        display: inline;
+    }
+
+    .logout-btn {
+        padding: 8px 12px;
+        background: #ffffff;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: background 0.2s ease;
+    }
+
+    .logout-btn:hover {
+        background: #fef2f2;
+    }
+
+    /* Messages */
+
+    .message-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 18px;
+    }
+
+    .message {
+        padding: 12px 14px;
+        border: 1px solid #bbf7d0;
+        background: #f0fdf4;
+        color: #166534;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    /* Header */
+
+    header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 24px;
+    }
+
+    h1 {
+        font-size: 26px;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+    }
+
+    h2 {
+        margin-bottom: 14px;
+        color: var(--text);
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    .add-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 10px 16px;
+        background: var(--primary);
+        color: #ffffff;
+        border-radius: 10px;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .add-btn:hover {
+        background: var(--primary-hover);
+        transform: translateY(-1px);
+    }
+
+    /* Filter section */
+
+    .filter-bar {
+    position: relative;
+    z-index: 50;
+    margin-bottom: 20px;
+    padding: 16px;
+    overflow: visible;
+    background: #f9fafb;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+}
+
+    .filter-form {
+        display: flex;
+        align-items: flex-end;
+        flex-wrap: nowrap;
+        gap: 10px;
+        min-width: max-content;
+    }
+
+    .filter-group {
+        display: flex;
+        flex-direction: column;
+        flex-shrink: 0;
+        gap: 6px;
+    }
+
+    .filter-group > label {
+        color: #374151;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .filter-group > select,
+    .filter-group > input[type="date"],
+    .filter-group > input[type="number"] {
+        height: 40px;
+        min-width: 0;
+        padding: 10px 10px;
+        background: #ffffff;
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 13px;
+        outline: none;
+    }
+
+    .filter-group > select {
+        width: 120px;
+    }
+
+    .filter-group > input[type="date"] {
+        width: 145px;
+    }
+
+    .filter-group > input[type="number"] {
+        width: 115px;
+    }
+
+    .filter-group > select:focus,
+    .filter-group > input[type="date"]:focus,
+    .filter-group > input[type="number"]:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+    }
+
+    .filter-btn,
+    .clear-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 72px;
+        height: 40px;
+        margin-top: 19px;
+        padding: 10px 12px;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+        transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .filter-btn {
+        background: var(--primary);
+        color: #ffffff;
+        border: 1px solid var(--primary);
+    }
+
+    .filter-btn:hover {
+        background: var(--primary-hover);
+        border-color: var(--primary-hover);
+        transform: translateY(-1px);
+    }
+
+    .clear-btn {
+        background: #ffffff;
+        color: #374151;
+        border: 1px solid var(--border);
+    }
+
+    .clear-btn:hover {
+        background: #f3f4f6;
+        transform: translateY(-1px);
+    }
+
+    /* Category dropdown */
+
+    .category-filter-group {
+        min-width: 155px;
+    }
+
+    .multi-select {
+        position: relative;
+        width: 155px;
+    }
+
+    .multi-select-btn {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 10px;
+        width: 100%;
+        height: 40px;
+        padding: 10px 12px;
+        background: #ffffff;
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 13px;
+        text-align: left;
+        cursor: pointer;
+    }
+
+    .multi-select-btn:hover,
+    .multi-select-btn.active {
+        border-color: var(--primary);
+    }
+
+    .multi-select-btn.active {
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+    }
+
+    .dropdown-arrow {
+        color: var(--muted);
+        font-size: 18px;
+        line-height: 1;
+        transition: transform 0.2s ease;
+    }
+
+    .multi-select-btn.active .dropdown-arrow {
+        transform: rotate(180deg);
+    }
+
+    .multi-select-menu {
+    position: absolute;
+    z-index: 9999;
+    top: calc(100% + 8px);
+    left: 0;
+    display: none;
+    width: 260px;
+    max-height: 260px;
+    padding: 8px;
+    overflow-y: auto;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    box-shadow: 0 12px 24px rgba(15, 23, 42, 0.18);
+}
+
+    .multi-select-menu.show {
+        display: block;
+    }
+
+    .checkbox-option {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+        min-height: 38px;
+        padding: 8px 10px;
+        color: #374151;
+        border-radius: 6px;
+        font-size: 14px;
+        cursor: pointer;
+    }
+
+    .checkbox-option:hover {
+        background: #f3f4f6;
+    }
+
+    .checkbox-option input[type="checkbox"] {
+        width: 16px;
+        min-width: 16px;
+        height: 16px;
+        min-height: 16px;
+        margin: 0;
+        padding: 0;
+        accent-color: var(--primary);
+        cursor: pointer;
+    }
+
+    .checkbox-option span {
+        flex: 1;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .select-all-option {
+        color: #312e81;
+        font-weight: 700;
+    }
+
+    .checkbox-divider {
+        height: 1px;
+        margin: 5px 0;
+        background: var(--border);
+    }
+
+    .no-categories {
+        padding: 8px;
+        color: var(--muted);
+        font-size: 13px;
+    }
+
+    /* Expense table */
+
+    .table-wrapper {
+        overflow-x: auto;
+        border: 1px solid var(--border);
+        border-radius: 12px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        background: #ffffff;
+        font-size: 14px;
+    }
+
+    thead {
+        background: #f9fafb;
+    }
+
+    th,
+    td {
+        padding: 12px 14px;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
+    }
+
+    th {
+        color: #374151;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    tbody tr:hover {
+        background: #f9fafb;
+    }
+
+    tbody tr:last-child td {
+        border-bottom: none;
+    }
+
+    .amount-cell {
+        color: #111827;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .category-cell {
+        display: inline-block;
+        padding: 4px 10px;
+        background: #eef2ff;
+        color: #3730a3;
+        border-radius: 999px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .date-cell {
+        color: var(--muted);
+        font-size: 13px;
+        white-space: nowrap;
+    }
+
+    .description-cell {
+        max-width: 260px;
+        overflow: hidden;
+        color: #374151;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .action-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 7px 10px;
+        border-radius: 7px;
+        font-size: 12px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s ease, transform 0.1s ease;
+    }
+
+    .edit-btn {
+        margin-right: 6px;
+        background: #e0e7ff;
+        color: #3730a3;
+    }
+
+    .edit-btn:hover {
+        background: #c7d2fe;
+        transform: translateY(-1px);
+    }
+
+    .delete-btn {
+        background: #fee2e2;
+        color: var(--danger);
+    }
+
+    .delete-btn:hover {
+        background: #fecaca;
+        color: var(--danger-hover);
+        transform: translateY(-1px);
+    }
+
+    .empty-row td {
+        padding: 24px;
+        color: var(--muted);
+        text-align: center;
+    }
+
+    /* Total */
+
+    tfoot {
+        background: #f8fafc;
+    }
+
+    .total-row td {
+        padding: 14px;
+        border-top: 2px solid var(--border);
+        border-bottom: none;
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .total-amount {
+        color: var(--primary);
+        white-space: nowrap;
+    }
+
+    .total-note {
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    /* Pagination */
+
+    .pagination {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 6px;
+        margin-top: 20px;
+    }
+
+    .pagination a,
+    .pagination span {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 36px;
+        height: 36px;
+        padding: 0 10px;
+        background: #f3f4f6;
+        color: var(--text);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: background 0.15s ease, transform 0.1s ease;
+    }
+
+    .pagination a:hover {
+        background: #e5e7eb;
+        transform: translateY(-1px);
+    }
+
+    .pagination .current {
+        background: var(--primary);
+        color: #ffffff;
+        border-color: var(--primary);
+    }
+
+    .pagination .disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+
+    .page-info {
+        margin-top: 10px;
+        color: var(--muted);
+        font-size: 13px;
+        text-align: center;
+    }
+
+    /* Session warning popup */
+
+    .session-modal-overlay {
+        position: fixed;
+        z-index: 1000;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        padding: 16px;
+        background: rgba(15, 23, 42, 0.55);
+    }
+
+    .session-modal-overlay.show {
+        display: flex;
+    }
+
+    .session-modal {
+        width: 100%;
+        max-width: 420px;
+        padding: 24px;
+        background: #ffffff;
+        border-radius: 14px;
+        box-shadow: 0 20px 45px rgba(15, 23, 42, 0.25);
+        text-align: center;
+    }
+
+    .session-modal h3 {
+        margin-bottom: 10px;
+        color: #1f2937;
+        font-size: 20px;
+    }
+
+    .session-modal p {
+        margin-bottom: 20px;
+        color: #6b7280;
+        font-size: 14px;
+        line-height: 1.6;
+    }
+
+    .session-modal-actions {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .stay-logged-in-btn,
+    .logout-now-btn {
+        padding: 10px 14px;
+        border-radius: 8px;
+        font-family: inherit;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+    .stay-logged-in-btn {
+        background: #4f46e5;
+        color: #ffffff;
+        border: 1px solid #4f46e5;
+    }
+
+    .stay-logged-in-btn:hover {
+        background: #4338ca;
+    }
+
+    .logout-now-btn {
+        background: #ffffff;
+        color: #dc2626;
+        border: 1px solid #fecaca;
+    }
+
+    .logout-now-btn:hover {
+        background: #fef2f2;
+    }
+
+    /* Responsive layout */
+
+    @media (max-width: 900px) {
+        .filter-form {
+            flex-wrap: wrap;
+            min-width: 0;
         }
+    }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+    @media (max-width: 600px) {
         body {
-            font-family: 'Inter', system-ui, -apple-system, Segoe UI, Roboto, sans-serif;
-            background: linear-gradient(135deg, #eef2ff 0%, #f5f7fb 100%);
-            color: var(--text);
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            padding: 40px 16px;
+            padding: 20px 10px;
         }
 
         .container {
-            width: 100%;
-            max-width: 900px;
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: var(--shadow);
-            padding: 28px 24px;
+            padding: 18px 14px;
         }
 
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-            gap: 12px;
+        .navbar {
+            align-items: flex-start;
+            flex-direction: column;
+        }
+
+        .nav-user {
+            width: 100%;
+        }
+
+        .user-details {
+            flex: 1;
+        }
+
+        .user-name,
+        .user-email {
+            max-width: 100%;
         }
 
         h1 {
-            font-size: 26px;
-            font-weight: 700;
-            letter-spacing: -0.02em;
+            font-size: 22px;
         }
 
-        .add-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: var(--primary);
-            color: #fff;
-            text-decoration: none;
-            padding: 10px 16px;
-            border-radius: 10px;
-            font-weight: 600;
-            font-size: 14px;
-            transition: background 0.2s ease, transform 0.1s ease;
-        }
-
-        .add-btn:hover {
-            background: var(--primary-hover);
-            transform: translateY(-1px);
-        }
-
-        h2 {
-            font-size: 18px;
-            font-weight: 600;
-            margin-bottom: 14px;
-            color: var(--text);
-        }
-
-        .table-wrapper {
-            overflow-x: auto;
-            border-radius: 12px;
-            border: 1px solid var(--border);
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 14px;
-            background: #fff;
-        }
-
-        thead {
-            background: #f9fafb;
-        }
-
-        th, td {
-            padding: 12px 14px;
-            text-align: left;
-            border-bottom: 1px solid var(--border);
-        }
-
-        th {
-            font-weight: 600;
-            color: #374151;
-            white-space: nowrap;
-        }
-
-        tbody tr:hover {
-            background: #f9fafb;
-        }
-
-        tbody tr:last-child td {
-            border-bottom: none;
-        }
-
-        .amount-cell {
-            font-weight: 600;
-            color: #111827;
-            white-space: nowrap;
-        }
-
-        .category-cell {
-            display: inline-block;
-            padding: 4px 10px;
-            border-radius: 999px;
-            background: #eef2ff;
-            color: #3730a3;
-            font-size: 12px;
-            font-weight: 600;
-        }
-
-        .date-cell {
-            color: var(--muted);
+        th,
+        td {
+            padding: 10px;
             font-size: 13px;
-            white-space: nowrap;
         }
 
         .description-cell {
-            color: #374151;
-            max-width: 260px;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            white-space: nowrap;
+            max-width: 140px;
         }
 
-        .empty-row td {
-            text-align: center;
-            color: var(--muted);
-            padding: 24px;
-        }
-
-        /* Pagination */
-        .pagination {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-top: 20px;
+        .filter-form {
+            align-items: stretch;
             flex-wrap: wrap;
         }
 
-        .pagination a,
-        .pagination span {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            min-width: 36px;
-            height: 36px;
-            padding: 0 10px;
-            border-radius: 8px;
-            font-size: 13px;
-            font-weight: 600;
-            text-decoration: none;
-            color: var(--text);
-            background: #f3f4f6;
-            border: 1px solid var(--border);
-            transition: background 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
+        .filter-group,
+        .category-filter-group,
+        .multi-select {
+            width: 100%;
         }
 
-        .pagination a:hover {
-            background: #e5e7eb;
-            transform: translateY(-1px);
+        .filter-group > select,
+        .filter-group > input[type="date"],
+        .filter-group > input[type="number"] {
+            width: 100%;
         }
 
-        .pagination .current {
-            background: var(--primary);
-            color: #fff;
-            border-color: var(--primary);
+        .filter-btn,
+        .clear-btn {
+            flex: 1;
+            margin-top: 0;
         }
 
-        .pagination .disabled {
-            opacity: 0.5;
-            pointer-events: none;
+        .multi-select-menu {
+            width: 100%;
         }
 
-        .page-info {
-            text-align: center;
-            margin-top: 10px;
-            font-size: 13px;
-            color: var(--muted);
+        .session-modal-actions {
+            flex-direction: column;
         }
 
-        /* Responsive tweaks */
-        @media (max-width: 600px) {
-            .container {
-                padding: 18px 14px;
-            }
-
-            h1 {
-                font-size: 22px;
-            }
-
-            th, td {
-                padding: 10px 10px;
-                font-size: 13px;
-            }
-
-            .description-cell {
-                max-width: 140px;
-            }
+        .stay-logged-in-btn,
+        .logout-now-btn {
+            width: 100%;
         }
-    </style>
+    }
+</style>
+
 </head>
+
 <body>
+    <div class="container">
 
-<div class="container">
-    <header>
-        <h1>Expense Tracker</h1>
-        <a href="{% url 'add_expense' %}" class="add-btn">
-            + Add Expense
-        </a>
-    </header>
+        <nav class="navbar">
+            <a href="{% url 'home' %}" class="nav-brand">
+                <span class="nav-brand-icon">₹</span>
+                <span>Expense Tracker</span>
+            </a>
 
-    <h2>All Expenses</h2>
+            <div class="nav-user">
+                <div class="user-avatar">
+                    {% if user.first_name %}
+                        {{ user.first_name|slice:":1" }}
+                    {% else %}
+                        {{ user.username|slice:":1" }}
+                    {% endif %}
+                </div>
 
-    <div class="table-wrapper">
-        <table>
-            <thead>
-    <tr>
-        <th>Title</th>
-        <th>Amount</th>
-        <th>Category</th>
-        <th>Date</th>
-        <th>Description</th>
-        <th>Actions</th>
-    </tr>
-</thead>
-<tbody>
-    {% for expense in page_obj %}
-    <tr>
-        <td>{{ expense.title }}</td>
-        <td class="amount-cell">₹{{ expense.amount }}</td>
-        <td><span class="category-cell">{{ expense.category }}</span></td>
-        <td class="date-cell">{{ expense.date|date:"d M Y" }}</td>
-        <td class="description-cell" title="{{ expense.description }}">
-            {{ expense.description|default:"-" }}
-        </td>
-        <td>
-            <a href="{% url 'edit_expense' expense.pk %}" class="action-btn edit-btn">Edit</a>
-            <a href="{% url 'delete_expense' expense.pk %}" class="action-btn delete-btn">Delete</a>
-        </td>
-    </tr>
-    {% empty %}
-    <tr class="empty-row">
-        <td colspan="6">No expenses found.</td>
-    </tr>
-    {% endfor %}
-</tbody>
-        </table>
-    </div>
+                <div class="user-details">
+                    <span class="user-name">
+                        {% if user.get_full_name %}
+                            {{ user.get_full_name }}
+                        {% else %}
+                            {{ user.username }}
+                        {% endif %}
+                    </span>
 
-    {% if page_obj.paginator.num_pages > 1 %}
-    <div class="pagination">
-        {% if page_obj.has_previous %}
-            <a href="?page=1">First</a>
-            <a href="?page={{ page_obj.previous_page_number }}">Prev</a>
-        {% else %}
-            <span class="disabled">First</span>
-            <span class="disabled">Prev</span>
+                    <span class="user-email">
+                        {{ user.email|default:"No email address" }}
+                    </span>
+                </div>
+
+                <form method="post" action="{% url 'logout' %}" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">
+                        Logout
+                    </button>
+                </form>
+            </div>
+        </nav>
+
+        {% if messages %}
+            <div class="message-list">
+                {% for message in messages %}
+                    <div class="message">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
         {% endif %}
 
-        {% for num in page_obj.paginator.page_range %}
-            {% if num == page_obj.number %}
-                <span class="current">{{ num }}</span>
-            {% else %}
-                <a href="?page={{ num }}">{{ num }}</a>
-            {% endif %}
-        {% endfor %}
+        <header>
+            <h1>Expense Tracker</h1>
 
-        {% if page_obj.has_next %}
-            <a href="?page={{ page_obj.next_page_number }}">Next</a>
-            <a href="?page={{ page_obj.paginator.num_pages }}">Last</a>
-        {% else %}
-            <span class="disabled">Next</span>
-            <span class="disabled">Last</span>
-        {% endif %}
-    </div>
+            <a href="{% url 'add_expense' %}" class="add-btn">
+                + Add Expense
+            </a>
+        </header>
 
-    <div class="page-info">
-        Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
-    </div>
-    {% endif %}
+        <h2>All Expenses</h2>
+
+        <div class="filter-bar">
+            <form method="get" class="filter-form">
+
+                <div class="filter-group category-filter-group">
+                    <label>Categories</label>
+
+                    <div class="multi-select" id="categoryMultiSelect">
+                        <button
+                            type="button"
+                            class="multi-select-btn"
+                            id="categoryDropdownButton"
+                            aria-expanded="false"
+                        >
+                            <span id="categoryDropdownText">
+                                All Categories
+                            </span>
+
+                            <span class="dropdown-arrow">⌄</span>
+                        </button>
+
+                        <div
+                            class="multi-select-menu"
+                            id="categoryDropdownMenu"
+                        >
+                            <label
+                                class="checkbox-option select-all-option"
+                                for="selectAllCategories"
+                            >
+                                <input
+                                    type="checkbox"
+                                    id="selectAllCategories"
+                                >
+                                <span>Select All</span>
+                            </label>
+
+                            <div class="checkbox-divider"></div>
+
+                            {% for category_value, category_label in categories %}
+                                <label
+                                    class="checkbox-option"
+                                    for="category-{{ forloop.counter }}"
+                                >
+                                    <input
+                                        type="checkbox"
+                                        id="category-{{ forloop.counter }}"
+                                        name="category"
+                                        value="{{ category_value }}"
+                                        class="category-checkbox"
+                                        {% if category_value in selected_categories %}checked{% endif %}
+                                    >
+                                    <span>{{ category_label }}</span>
+                                </label>
+                            {% empty %}
+                                <p class="no-categories">
+                                    No categories available.
+                                </p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="filter-group">
+                    <label for="date">Date</label>
+
+                    <input
+                        type="date"
+                        name="date"
+                        id="date"
+                        value="{{ selected_date }}"
+                    >
+                </div>
+
+                <div class="filter-group">
+                    <label for="year">Year</label>
+
+                    <select name="year" id="year">
+                        <option value="">All Years</option>
+
+                        {% for year in years %}
+                            <option
+                                value="{{ year }}"
+                                {% if selected_year == year|stringformat:"s" %}selected{% endif %}
+                            >
+                                {{ year }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <div class="filter-group">
+    <label for="min_amount">Minimum Amount</label>
+
+    <input
+        type="number"
+        name="min_amount"
+        id="min_amount"
+        value="{{ min_amount }}"
+        min="0"
+        step="0.01"
+        placeholder="e.g. 100"
+    >
 </div>
 
+<div class="filter-group">
+    <label for="max_amount">Maximum Amount</label>
+
+    <input
+        type="number"
+        name="max_amount"
+        id="max_amount"
+        value="{{ max_amount }}"
+        min="0"
+        step="0.01"
+        placeholder="e.g. 1000"
+    >
+</div>
+
+                <button type="submit" class="filter-btn">
+                    Filter
+                </button>
+
+                {% if selected_categories or selected_date or selected_year or min_amount or max_amount %}
+                    <a href="{% url 'home' %}" class="clear-btn">
+                        Clear
+                    </a>
+                {% endif %}
+            </form>
+        </div>
+
+        <div class="table-wrapper">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Amount</th>
+                        <th>Category</th>
+                        <th>Date</th>
+                        <th>Description</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {% for expense in page_obj %}
+                        <tr>
+                            <td>{{ expense.title }}</td>
+
+                            <td class="amount-cell">
+                                ₹{{ expense.amount }}
+                            </td>
+
+                            <td>
+                                <span class="category-cell">
+                                    {{ expense.get_category_display }}
+                                </span>
+                            </td>
+
+                            <td class="date-cell">
+                                {{ expense.date|date:"d M Y" }}
+                            </td>
+
+                            <td
+                                class="description-cell"
+                                title="{{ expense.description }}"
+                            >
+                                {{ expense.description|default:"-" }}
+                            </td>
+
+                            <td>
+                                <a
+                                    href="{% url 'edit_expense' expense.pk %}"
+                                    class="action-btn edit-btn"
+                                >
+                                    Edit
+                                </a>
+
+                                <a
+                                    href="{% url 'delete_expense' expense.pk %}"
+                                    class="action-btn delete-btn"
+                                >
+                                    Delete
+                                </a>
+                            </td>
+                        </tr>
+                    {% empty %}
+                        <tr class="empty-row">
+                            <td colspan="6">
+                                No expenses found.
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+
+                <tfoot>
+                    <tr class="total-row">
+                        <td>Total</td>
+
+                        <td class="total-amount">
+                            ₹{{ total_amount|floatformat:2 }}
+                        </td>
+
+                        <td colspan="4" class="total-note">
+                            {% if selected_categories or selected_date or selected_year or min_amount or max_amount %}
+                                Total based on selected filters
+                            {% else %}
+                                Total of all expenses
+                            {% endif %}
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+
+        {% if page_obj.paginator.num_pages > 1 %}
+            <div class="pagination">
+
+                {% if page_obj.has_previous %}
+                    <a href="?page=1{% if filter_query %}&{{ filter_query }}{% endif %}">
+                        First
+                    </a>
+
+                    <a href="?page={{ page_obj.previous_page_number }}{% if filter_query %}&{{ filter_query }}{% endif %}">
+                        Prev
+                    </a>
+                {% else %}
+                    <span class="disabled">First</span>
+                    <span class="disabled">Prev</span>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    {% if num == page_obj.number %}
+                        <span class="current">{{ num }}</span>
+                    {% else %}
+                        <a href="?page={{ num }}{% if filter_query %}&{{ filter_query }}{% endif %}">
+                            {{ num }}
+                        </a>
+                    {% endif %}
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <a href="?page={{ page_obj.next_page_number }}{% if filter_query %}&{{ filter_query }}{% endif %}">
+                        Next
+                    </a>
+
+                    <a href="?page={{ page_obj.paginator.num_pages }}{% if filter_query %}&{{ filter_query }}{% endif %}">
+                        Last
+                    </a>
+                {% else %}
+                    <span class="disabled">Next</span>
+                    <span class="disabled">Last</span>
+                {% endif %}
+            </div>
+
+            <div class="page-info">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}
+            </div>
+        {% endif %}
+        <footer>
+    <p style="font-size:small; text-align: center;"> &copy; {{ now|date:"Y" }} Sravan Kambhampati [Expense Tracker]. All rights reserved.</p>
+</footer>
+
+    </div>
+<div
+    class="session-modal-overlay"
+    id="sessionWarningModal"
+    aria-hidden="true"
+>
+    <div
+        class="session-modal"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="sessionWarningTitle"
+    >
+        <h3 id="sessionWarningTitle">
+            Your session is about to expire
+        </h3>
+
+        <p>
+            You will be logged out in less than 2 minutes due to inactivity.
+            Do you want to stay logged in?
+        </p>
+
+        <div class="session-modal-actions">
+            <button
+                type="button"
+                id="stayLoggedInButton"
+                class="stay-logged-in-btn"
+            >
+                Stay Logged In
+            </button>
+
+            <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit" class="logout-now-btn">
+        Log Out Now
+    </button>
+</form>
+        </div>
+    </div>
+</div>
+    <script>
+        const categoryDropdownButton = document.getElementById(
+            "categoryDropdownButton"
+        );
+
+        const categoryDropdownMenu = document.getElementById(
+            "categoryDropdownMenu"
+        );
+
+        const categoryDropdownText = document.getElementById(
+            "categoryDropdownText"
+        );
+
+        const categoryMultiSelect = document.getElementById(
+            "categoryMultiSelect"
+        );
+
+        const categoryCheckboxes = document.querySelectorAll(
+            ".category-checkbox"
+        );
+
+        const selectAllCategories = document.getElementById(
+            "selectAllCategories"
+        );
+
+        function updateCategoryDropdownText() {
+            const selectedCheckboxes = document.querySelectorAll(
+                ".category-checkbox:checked"
+            );
+
+            const selectedCount = selectedCheckboxes.length;
+            const totalCount = categoryCheckboxes.length;
+
+            if (selectedCount === 0) {
+                categoryDropdownText.textContent = "All Categories";
+            } else if (selectedCount === 1) {
+                categoryDropdownText.textContent =
+                    selectedCheckboxes[0].nextElementSibling.textContent.trim();
+            } else if (selectedCount === totalCount) {
+                categoryDropdownText.textContent =
+                    "All Categories Selected";
+            } else {
+                categoryDropdownText.textContent =
+                    selectedCount + " Categories Selected";
+            }
+
+            if (totalCount > 0) {
+                selectAllCategories.checked =
+                    selectedCount === totalCount;
+
+                selectAllCategories.indeterminate =
+                    selectedCount > 0 && selectedCount < totalCount;
+            }
+        }
+
+        categoryDropdownButton.addEventListener("click", function () {
+            const isOpen = categoryDropdownMenu.classList.toggle("show");
+
+            categoryDropdownButton.classList.toggle("active", isOpen);
+
+            categoryDropdownButton.setAttribute(
+                "aria-expanded",
+                isOpen ? "true" : "false"
+            );
+        });
+
+        categoryCheckboxes.forEach(function (checkbox) {
+            checkbox.addEventListener("change", function () {
+                updateCategoryDropdownText();
+            });
+        });
+
+        selectAllCategories.addEventListener("change", function () {
+            const shouldSelectAll = selectAllCategories.checked;
+
+            categoryCheckboxes.forEach(function (checkbox) {
+                checkbox.checked = shouldSelectAll;
+            });
+
+            updateCategoryDropdownText();
+        });
+
+        document.addEventListener("click", function (event) {
+            if (!categoryMultiSelect.contains(event.target)) {
+                categoryDropdownMenu.classList.remove("show");
+                categoryDropdownButton.classList.remove("active");
+
+                categoryDropdownButton.setAttribute(
+                    "aria-expanded",
+                    "false"
+                );
+            }
+        });
+
+        updateCategoryDropdownText();
+
+        const sessionWarningModal = document.getElementById(
+    "sessionWarningModal"
+);
+
+const stayLoggedInButton = document.getElementById(
+    "stayLoggedInButton"
+);
+
+const sessionLengthMilliseconds = 10 * 60 * 1000;
+const warningBeforeExpiryMilliseconds = 2 * 60 * 1000;
+
+let warningTimer;
+let logoutTimer;
+
+function getCsrfToken() {
+    const cookieName = "csrftoken";
+    const cookies = document.cookie.split(";");
+
+    for (let i = 0; i < cookies.length; i += 1) {
+        const cookie = cookies[i].trim();
+
+        if (cookie.startsWith(cookieName + "=")) {
+            return decodeURIComponent(
+                cookie.substring(cookieName.length + 1)
+            );
+        }
+    }
+
+    return "";
+}
+
+function showSessionWarning() {
+    sessionWarningModal.classList.add("show");
+    sessionWarningModal.setAttribute("aria-hidden", "false");
+}
+
+function hideSessionWarning() {
+    sessionWarningModal.classList.remove("show");
+    sessionWarningModal.setAttribute("aria-hidden", "true");
+}
+
+function redirectToLogin() {
+    window.location.href = "{% url 'logout' %}";
+}
+
+function startSessionTimers() {
+    clearTimeout(warningTimer);
+    clearTimeout(logoutTimer);
+
+    hideSessionWarning();
+
+    warningTimer = setTimeout(
+        showSessionWarning,
+        sessionLengthMilliseconds - warningBeforeExpiryMilliseconds
+    );
+
+    logoutTimer = setTimeout(
+        redirectToLogin,
+        sessionLengthMilliseconds
+    );
+}
+
+stayLoggedInButton.addEventListener("click", function () {
+    fetch("{% url 'extend_session' %}", {
+        method: "POST",
+        headers: {
+            "X-CSRFToken": getCsrfToken(),
+            "Content-Type": "application/json"
+        },
+        credentials: "same-origin"
+    })
+        .then(function (response) {
+            if (!response.ok) {
+                throw new Error("Unable to extend the session.");
+            }
+
+            return response.json();
+        })
+        .then(function () {
+            startSessionTimers();
+        })
+        .catch(function () {
+            window.location.href = "{% url 'logout' %}";
+        });
+});
+
+startSessionTimers();
+    </script>
 </body>
 </html>

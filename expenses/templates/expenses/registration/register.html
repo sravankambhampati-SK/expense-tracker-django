@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Create Account | Expense Tracker</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            margin: 0;
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #eef2ff 0%, #f5f7fb 100%);
+            color: #1f2937;
+            font-family: "Inter", system-ui, sans-serif;
+        }
+
+        .auth-card {
+            width: 100%;
+            max-width: 470px;
+            padding: 32px;
+            background: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 12px 30px rgba(15, 23, 42, 0.1);
+        }
+
+        .brand {
+            margin-bottom: 24px;
+            color: #4f46e5;
+            font-size: 20px;
+            font-weight: 700;
+            text-align: center;
+        }
+
+        h1 {
+            margin: 0 0 8px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .subtitle {
+            margin: 0 0 24px;
+            color: #6b7280;
+            font-size: 14px;
+            text-align: center;
+        }
+
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            color: #374151;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #e5e7eb;
+            border-radius: 8px;
+            font: inherit;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #4f46e5;
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+        }
+
+        .help-text {
+            margin-top: 6px;
+            color: #6b7280;
+            font-size: 11px;
+            line-height: 1.5;
+        }
+
+        .help-text ul {
+            margin: 5px 0 0 18px;
+            padding: 0;
+        }
+
+        .error {
+            margin-top: 6px;
+            color: #dc2626;
+            font-size: 12px;
+        }
+
+        .register-btn {
+            width: 100%;
+            padding: 11px 14px;
+            background: #4f46e5;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font: inherit;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .register-btn:hover {
+            background: #4338ca;
+        }
+
+        .bottom-text {
+            margin-top: 20px;
+            color: #6b7280;
+            font-size: 13px;
+            text-align: center;
+        }
+
+        .bottom-text a {
+            color: #4f46e5;
+            font-weight: 600;
+            text-decoration: none;
+        }
+    </style>
+</head>
+
+<body>
+    <main class="auth-card">
+        <div class="brand">₹ Expense Tracker</div>
+
+        <h1>Create your account</h1>
+        <p class="subtitle">Start managing your expenses securely.</p>
+
+        <form method="post">
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="{{ form.username.id_for_label }}">
+                    Username
+                </label>
+
+                {{ form.username }}
+
+                {% for error in form.username.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.first_name.id_for_label }}">
+                    First name
+                </label>
+
+                {{ form.first_name }}
+
+                {% for error in form.first_name.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.last_name.id_for_label }}">
+                    Last name
+                </label>
+
+                {{ form.last_name }}
+
+                {% for error in form.last_name.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.email.id_for_label }}">
+                    Email address
+                </label>
+
+                {{ form.email }}
+
+                {% for error in form.email.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password1.id_for_label }}">
+                    Password
+                </label>
+
+                {{ form.password1 }}
+
+                {% for error in form.password1.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+
+                {% if form.password1.help_text %}
+                    <div class="help-text">
+                        {{ form.password1.help_text|safe }}
+                    </div>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="{{ form.password2.id_for_label }}">
+                    Confirm password
+                </label>
+
+                {{ form.password2 }}
+
+                {% for error in form.password2.errors %}
+                    <p class="error">{{ error }}</p>
+                {% endfor %}
+            </div>
+
+            <button type="submit" class="register-btn">
+                Create Account
+            </button>
+        </form>
+
+        <p class="bottom-text">
+            Already have an account?
+            <a href="{% url 'login' %}">Login</a>
+        </p>
+    </main>
+</body>
+</html>
