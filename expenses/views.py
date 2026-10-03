@@ -37,7 +37,7 @@ def register(request):
 
     return render(
         request,
-        "D:/Projects/ExpenseTracker/expenses/templates/expenses/registration/register.html",
+        "expenses/templates/expenses/registration/login.html",
         {
             "form": form,
             "now": timezone.now(),

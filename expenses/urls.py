@@ -23,7 +23,7 @@ urlpatterns = [
     path(
         "login/",
         auth_views.LoginView.as_view(
-            template_name="D:/Projects/ExpenseTracker/expenses/templates/expenses/registration/login.html"
+            template_name="expenses/templates/expenses/registration/login.html"
         ),
         name="login",
     ),
