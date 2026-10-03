@@ -23,7 +23,6 @@ def register(request):
         if form.is_valid():
             user = form.save()
 
-            # Automatically log in the newly registered user.
             login(request, user)
 
             messages.success(
@@ -37,13 +36,12 @@ def register(request):
 
     return render(
         request,
-        "expenses/registration/login.html",
+        "expenses/registration/register.html",
         {
             "form": form,
             "now": timezone.now(),
         }
     )
-
 
 @never_cache
 @login_required(login_url="login")
