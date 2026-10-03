@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import dj_database_url
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +21,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^^cnyepe^2lu&o^#-)=*dq2l#_b&5y+p_^dh=d&o1(0-gbv9@k'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG", "FALSE").lower()=="true"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
@@ -85,8 +86,8 @@ DATABASES = {
         'PORT': '3306',
     }
 }
-
-DATABASES["default"]= dj_database_url.parse("postgresql://expense_django_render_user:lFJRcRsjSW74cwD2XAst3xQkIUFgwd3l@dpg-db079qs9v7es73a7enb0-a.singapore-postgres.render.com/expense_django_render")
+database_url = os.environ.get("DATABASE_URL")
+DATABASES["default"]= dj_database_url.parse(database_url)
 
 
 # Password validation
