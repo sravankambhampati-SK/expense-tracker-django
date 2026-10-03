@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 from pathlib import Path
-
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -86,6 +86,8 @@ DATABASES = {
     }
 }
 
+DATABASES["default"]= dj_database_url.parse("postgresql://expense_django_render_user:lFJRcRsjSW74cwD2XAst3xQkIUFgwd3l@dpg-db079qs9v7es73a7enb0-a.singapore-postgres.render.com/expense_django_render")
+
 
 # Password validation
 # https://docs.djangoproject.com/en/6.0/ref/settings/#auth-password-validators
@@ -131,3 +133,5 @@ SESSION_SAVE_EVERY_REQUEST = True
 LOGIN_URL = "login"
 LOGIN_REDIRECT_URL = "home"
 LOGOUT_REDIRECT_URL = "login"
+
+# postgresql://expense_django_render_user:lFJRcRsjSW74cwD2XAst3xQkIUFgwd3l@dpg-db079qs9v7es73a7enb0-a.singapore-postgres.render.com/expense_django_render
