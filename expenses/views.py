@@ -37,7 +37,7 @@ def register(request):
 
     return render(
         request,
-        "expenses/templates/expenses/registration/login.html",
+        "expenses/registration/login.html",
         {
             "form": form,
             "now": timezone.now(),
